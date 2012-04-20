@@ -1,0 +1,73 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+
+\usepackage{graphicx,url}
+
+\usepackage[brazil]{babel}   
+\usepackage[latin1]{inputenc}  
+     
+\sloppy
+
+\title{MetricMiner}
+
+\author{Francisco Z. Sokol\inst{1}, Mauricio Aniche\inst{2}}
+
+
+\address{Instituto de Matemática e Estatística -- Universidade de São Paulo
+  (USP)\\
+  Caixa Postal 15.064 -- 91.501-970 -- Porto Alegre -- RS -- Brazil
+  \email{chico.sokol@gmail.com}
+}
+
+\begin{document} 
+
+\maketitle
+
+\begin{abstract}
+\end{abstract}
+     
+\begin{resumo} 
+\end{resumo}
+
+
+\section{Motivação} % descrição e motivação do problema tratado pela ferramenta;
+
+Minerar repositórios de software é uma tarefa custosa. Para desenvolver uma 
+pesquisa na área, um pesquisador é obrigado a baixar diversos projetos
+em sua estação de trabalho, realizar uma série de cálculos sobre o código
+dos projetos e sobre os meta dados de seu repositório. Esse processo requer que
+o pesquisador instale diversos softwares e bibliotecas localmente para reaproveitar
+as ferramentas desenvolvidos nessa área, tornando o processo extremamente difícil 
+para quem está iniciando nessa área de pesquisa.
+
+Além de ser um processo complexo, esse tipo de pesquisa consome muitos recursos 
+computacionais. Primeiro, é necessário baixar diversos repositórios a serem minerados
+consumindo um volume considerável de banda. Depois, os dados devem ser processados e 
+persistidos em um banco de dados, ocupando uma grande volume de disco, afinal
+alguns projetos possuem um longo histórico de desenvolvimento que deve
+ser armazenado localmente (algum exemplo?). Então, o pesquisador pode calcular métricas
+sobre esses dados, além de extrair relações entre os meta dados do histórico do SCM
+gastando uma quantidade grande de processamento de CPU. Só depois de passar por todas
+essas etapas, é possível extrair dados e validar hipóteses através de análises estatísticas.
+
+% - comentar recursos gastos minerando localmente, disco, rede, processamento e o tempo que demora para completar todas as etapas
+% - comentar escalabilidade, cloud etc etc, escalar verticalmente facilmente
+
+\section{Arquitetura} % arquitetura de solução da ferramenta;
+% - comentar sobre o rEvolution e as limitações para introduzir a nova ferramenta
+% - explicar o processo: cadastrar projeto, cadastrar tarefas, executar tarefas
+% - explicar arquitetura do TaskRunner e como plugar novas tasks
+% - explicar a arquitetura do CalculateMetricTask e como plugar novas métricas nele
+
+\section{Principais funcionalidades} % descrição das principais funcionalidades;
+
+\section{Outras ferramentas} %breve comparação com outras ferramentas relacionadas existentes;
+
+
+\section{Referências}
+
+\bibliographystyle{sbc}
+\bibliography{sbc-template}
+
+\end{document}
