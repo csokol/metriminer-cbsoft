@@ -33,10 +33,10 @@
     Essa ferramenta armazena diversas informações de repositórios e calcula 
     métricas de código fonte sobre todo o histórico dos projetos a partir
     dos seus sistemas de controle de versões.
-    Com os softwares disponíveis atualmente, o pesquisador precisa configurar 
+    Utilizando os softwares disponíveis atualmente, o pesquisador precisa configurar 
     a ferramenta localmente e baixar os projetos sobre os quais deseja calcular
     suas métricas em um processo difícil, caro e demorado.
-    Já no MetricMiner, toda a interação é feita por meio de uma interface web, tornando
+    Com o MetricMiner, toda a interação é feita por meio de uma interface web, tornando
     o processo de pesquisa mais eficiente.
     Além disso, o sistema disponibiliza uma base com dados de uma série de projetos 
     de código aberto sobre os quais um pesquisador pode extrair e relacionar 
@@ -47,27 +47,43 @@
 \section{Motivação} % descrição e motivação do problema tratado pela ferramenta;
 
 Minerar repositórios de software é uma tarefa custosa. Para desenvolver uma 
-pesquisa na área, um pesquisador é obrigado a baixar diversos projetos
+pesquisa na área, o pesquisador é obrigado a baixar diversos projetos
 em sua estação de trabalho, realizar uma série de cálculos sobre o código
 dos projetos e sobre os meta dados de seu repositório. Esse processo requer que
 o pesquisador instale diversos softwares e bibliotecas localmente para reaproveitar
-as ferramentas desenvolvidos nessa área, tornando o processo extremamente difícil 
-para quem está iniciando nessa área de pesquisa.
+as ferramentas desenvolvidas nessa área, em um processo difícil e demorado.
 
 Além de ser um processo complexo, esse tipo de pesquisa consome muitos recursos 
-computacionais. Primeiro, é necessário baixar diversos repositórios a serem minerados
-consumindo um volume considerável de banda. Depois, os dados devem ser processados e 
-persistidos em um banco de dados, ocupando uma grande volume de disco, afinal
-alguns projetos possuem um longo histórico de desenvolvimento que deve
-ser armazenado localmente (algum exemplo?). Então, o pesquisador pode calcular métricas
-sobre esses dados, além de extrair relações entre os meta dados do histórico do sistema de controle de versão,
+computacionais. Baixar os repositórios a serem minerados consome um 
+volume considerável de banda. Depois, os dados devem ser processados e 
+persistidos em um banco de dados, ocupando uma grande volume de disco.
+Só então o pesquisador pode calcular métricas sobre esses dados, além de 
+extrair relações entre os meta dados do histórico do sistema de controle de versão,
 gastando uma quantidade grande de processamento de CPU. Só depois de passar por todas
 essas etapas, é possível extrair dados e validar hipóteses através de análises estatísticas.
+
+A partir dessas dificuldades, surgiu a motivação para o desenvolvimento do MetricMiner,
+uma aplicação web que realiza todas as etapas custosas da mineração de um repositório
+de software. 
 
 % - comentar recursos gastos minerando localmente, disco, rede, processamento e o tempo que demora para completar todas as etapas
 % - comentar escalabilidade, cloud etc etc, escalar verticalmente facilmente
 
 \section{Arquitetura} % arquitetura de solução da ferramenta;
+
+O MetricMiner é baseado na simulação de uma fila de execução em que as etapas
+do processo de mineração são inseridas para serem executadas de forma sequencial 
+posteriormente. Podemos dividir a arquitetura do MetricMiner em três partes:
+\begin{enumerate}
+  \item Interface web
+  \item TaskRunner
+  \item Tasks
+  \item Métricas
+\end{enumerate}
+A interação com o usuário se dá pela interface web, através da qual ele é capaz
+de cadastrar projetos que serão processados pelo sistema.
+
+
 % - comentar sobre o rEvolution e as limitações para introduzir a nova ferramenta
 % - explicar o processo: cadastrar projeto, cadastrar tarefas, executar tarefas
 % - explicar arquitetura do TaskRunner e como plugar novas tasks
