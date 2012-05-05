@@ -114,13 +114,34 @@ momento já foram implementadas as métricas:
 % - explicar a arquitetura do CalculateMetricTask e como plugar novas métricas nele
 
 \section{Principais funcionalidades} % descrição das principais funcionalidades;
-
+    Para cadastrar um projeto, o usuário deve fornecer o nome e a url do repositório do código do projeto. Depois de salvar,
+    são inseridas novas tarefas na fila de execução que irão baixar o código do respositório e persistir os dados
+    do sistema de controle de versão do projeto no banco de dados. Ao final dessas tarefas, o usuário pode entrar na tela de detalhes
+    do projeto cadastrado e vizualizar alguns dados simples do projeto cadastrado.
+        
+    A figura \ref{fig:screen_projeto} mostra a tela de vizualização no MetricMiner do projeto Ant, software de código aberto da fundação 
+    Apache com mais seis mil commits. Nesta tela, são exibidas informações básicas sobre o projeto como número de commits,
+    número de commiters, url do repositório, data do primeiro e último commit. São exibidos também dois gráficos simples 
+    nos quais pode ser vizualizado o número de commits nos últimos doze meses e o número de arquivos modificados em cada 
+    commit nos últimos seis meses.
+    
+    Mais abaixo, na seção "Avaiable Metrics to Calculate", são exibidas as métricas disponíveis no MetricMiner e que ainda não
+    foram calculadas para o projeto. O usuário pode selecionar as métricas que deseja calcular e as tarefas para os cálculos serão
+    inseridas à fila de execução. Na seção "Scheduled Tasks", as tarefas que já foram executadas podem ser vizualizadas. Nesse caso,
+    podemos ver que as métricas de complexidade ciclomática e a fan-out já foram calculadas, enquanto a LCOM e a quantidade de 
+    invocações de métodos estão na fila de execução para serem calculadas.
+    
+%     SELECT result.* , a.*, c.date FROM LinesOfCodeResult AS result
+%     JOIN SourceCode s ON s.id=result.sourceCode_id 
+%     JOIN Artifact a ON a.id=s.artifact_id
+%     JOIN Commit_Artifact ca ON ca.artifacts_id=a.id
+%     JOIN Commit c ON c.id=ca.commits_id;
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.95\textwidth]{img/projeto.png}
 \caption{Tela de vizualização de projeto}
-\label{fig:exampleFig1}
+\label{fig:screen_projeto}
 \end{figure}
 
 \section{Outras ferramentas} %breve comparação com outras ferramentas relacionadas existentes;
