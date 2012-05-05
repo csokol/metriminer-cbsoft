@@ -2,7 +2,8 @@
 
 \usepackage{sbc-template}
 
-\usepackage{graphicx,url}
+\usepackage{url}
+\usepackage[pdftex]{graphicx}           % usamos arquivos pdf/png como figuras
 
 \usepackage[brazil]{babel}   
 \usepackage[latin1]{inputenc}  
@@ -71,25 +72,56 @@ de software.
 
 \section{Arquitetura} % arquitetura de solução da ferramenta;
 
-O MetricMiner é baseado na simulação de uma fila de execução em que as etapas
-do processo de mineração são inseridas para serem executadas de forma sequencial 
-posteriormente. Podemos dividir a arquitetura do MetricMiner em três partes:
-\begin{enumerate}
-  \item Interface web
-  \item TaskRunner
-  \item Tasks
-  \item Métricas
-\end{enumerate}
-A interação com o usuário se dá pela interface web, através da qual ele é capaz
-de cadastrar projetos que serão processados pelo sistema.
+Para o desenvolvimento da aplicação web, foi utilizado o VRaptor, um arcabouço para desenvolvimento web
+em Java baseado no padrão de projeto MVC (Model-View-Controller). Para a armazenar os dados minerados
+foi utilizado o banco de dados MySQL e o ORM Hibernate. (ref mvc, vraptor, hibernate)
 
+O MetricMiner surgiu a partir do rEvolution, uma ferramenta de linha de comando que extrai dados
+de um repositório local e persiste em banco de dados relacional. Com isso, o componente que faz a interface
+com o sistema de controle de versões pôde ser reutilizado no MetricMiner. Esse componente é bastante flexível em 
+relação ao sistema de controle de versão utilizado pelo projeto que será minerado. Para suportar um novo sistema
+de controle de versão é necessário apenas a implementação da intreface org.metricminer.SCM, que contém 
+operações básicas sobre os metadados do sistema de controle de versão. Até o momento, o MetricMiner suporta 
+apenas o git. (referencias git, revolution)
 
-% - comentar sobre o rEvolution e as limitações para introduzir a nova ferramenta
+O MetricMiner se baseia na simulação de uma fila de execução para completar tarefas demoradas, como baixar
+repositórios, persistir suas informações no banco de dados e calcular métricas sobre o código fonte. 
+Para isso, o componente que processa a fila de execução, extrai as informações da tarefa do banco de
+dados, constrói os objetos necessários para a execução da tarefa e a executa. A arquitetura é bastante
+flexível nesse ponto, de forma que para a definição de uma nova tarefa é necessário apenas que sejam desenvolvidas
+duas classes que implementam as interfaces org.metricminer.RunnableTask e org.metricminer.RunnableTaskFactory.
+
+Cada tarefa implementada tem acesso ao projeto sobre o qual a tarefa será executada e uma conexão com o 
+banco de dados. Dessa forma, cada tarefa pode extrair e relacionar qualquer informação do projeto e persistir
+os seus resultados no banco de dados.
+
+A arquitetura também é flexível em relação a criação de novas métricas de código. Para criar uma nova métrica, deve ser
+definida uma classe para representar os resultados do cálculo da métrica que serão armazenados no banco de dados
+e uma classe que implemente a interface org.metricminer.tasks.metric.common.Metric. Para calcular essas métricas
+sobre o código dos projetos cadastrados, utiliza-se a classe org.metricminer.CalculateMetricTask que ao ser executada na fila de
+execução, calcula uma determinada métrica para todas as versões de todos os códigos fonte de um projeto. Até o 
+momento já foram implementadas as métricas: 
+\begin{itemize}
+    \item Complexidade Ciclomática
+    \item Falta de Coesão dos Métodos (LCOM)
+    \item Fan-out
+    \item Quantidade de Linhas de Código (LOC) 
+    \item Quantidade de Invocações de Métodos
+\end{itemize}
+    
 % - explicar o processo: cadastrar projeto, cadastrar tarefas, executar tarefas
 % - explicar arquitetura do TaskRunner e como plugar novas tasks
 % - explicar a arquitetura do CalculateMetricTask e como plugar novas métricas nele
 
 \section{Principais funcionalidades} % descrição das principais funcionalidades;
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.95\textwidth]{img/projeto.png}
+\caption{Tela de vizualização de projeto}
+\label{fig:exampleFig1}
+\end{figure}
 
 \section{Outras ferramentas} %breve comparação com outras ferramentas relacionadas existentes;
 
