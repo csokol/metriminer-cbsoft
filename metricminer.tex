@@ -74,15 +74,15 @@ de software.
 
 Para o desenvolvimento da aplicação web, foi utilizado o VRaptor, um arcabouço para desenvolvimento web
 em Java baseado no padrão de projeto MVC (Model-View-Controller). Para a armazenar os dados minerados
-foi utilizado o banco de dados MySQL e o ORM Hibernate. (ref mvc, vraptor, hibernate)
+foi utilizado o banco de dados MySQL e o ORM Hibernate. %(ref mvc, vraptor, hibernate)
 
 O MetricMiner surgiu a partir do rEvolution, uma ferramenta de linha de comando que extrai dados
 de um repositório local e persiste em banco de dados relacional. Com isso, o componente que faz a interface
 com o sistema de controle de versões pôde ser reutilizado no MetricMiner. Esse componente é bastante flexível em 
 relação ao sistema de controle de versão utilizado pelo projeto que será minerado. Para suportar um novo sistema
 de controle de versão é necessário apenas a implementação da intreface org.metricminer.SCM, que contém 
-operações básicas sobre os metadados do sistema de controle de versão. Até o momento, o MetricMiner suporta 
-apenas o git. (referencias git, revolution)
+operações básicas sobre os metadados do sistema de controle de versão. Até o momento, apenas o git possui suporte 
+na ferramenta. %(referencias git, revolution)
 
 O MetricMiner se baseia na simulação de uma fila de execução para completar tarefas demoradas, como baixar
 repositórios, persistir suas informações no banco de dados e calcular métricas sobre o código fonte. 
@@ -97,11 +97,11 @@ os seus resultados no banco de dados.
 
 A arquitetura também é flexível em relação a criação de novas métricas de código. Para criar uma nova métrica, deve ser
 definida uma classe para representar os resultados do cálculo da métrica que serão armazenados no banco de dados
-e uma classe que implemente a interface org.metricminer.tasks.metric.common.Metric. Para calcular essas métricas
-sobre o código dos projetos cadastrados, utiliza-se a classe org.metricminer.CalculateMetricTask que ao ser executada na fila de
-execução, calcula uma determinada métrica para todas as versões de todos os códigos fonte de um projeto. Até o 
-momento já foram implementadas as métricas: 
-\begin{itemize}
+e uma classe que implemente a interface org.metricminer.tasks.metric.common.Metric. O cálculo das métricas
+sobre o código dos projetos cadastrados é feito através da tarefa definida na classe org.metricminer.CalculateMetricTask.
+Ao ser executada na fila de execução, essa tarefa calcula uma determinada métrica para todas as versões de todos os 
+códigos fonte de um projeto. Até o momento já foram implementadas as métricas: 
+\begin{itemize} %(referencias métricas com aniche)
     \item Complexidade Ciclomática
     \item Falta de Coesão dos Métodos (LCOM)
     \item Fan-out
@@ -126,23 +126,36 @@ momento já foram implementadas as métricas:
     commit nos últimos seis meses.
     
     Mais abaixo, na seção "Avaiable Metrics to Calculate", são exibidas as métricas disponíveis no MetricMiner e que ainda não
-    foram calculadas para o projeto. O usuário pode selecionar as métricas que deseja calcular e as tarefas para os cálculos serão
-    inseridas à fila de execução. Na seção "Scheduled Tasks", as tarefas que já foram executadas podem ser vizualizadas. Nesse caso,
-    podemos ver que as métricas de complexidade ciclomática e a fan-out já foram calculadas, enquanto a LCOM e a quantidade de 
-    invocações de métodos estão na fila de execução para serem calculadas.
+    foram calculadas para o projeto. O usuário pode selecionar as métricas que deseja calcular e as tarefas para a realizaçao dos
+    cálculos serão inseridas à fila de execução. Na seção "Scheduled Tasks", as tarefas que já foram executadas podem ser
+    vizualizadas. Nesse caso, podemos ver que as métricas de complexidade ciclomática e a fan-out já foram calculadas, 
+    enquanto a LCOM e a quantidade de invocações de métodos estão na fila de execução para serem calculadas.
     
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.95\textwidth]{img/projeto.png}
+    \caption{Tela de vizualização de projeto}
+    \label{fig:screen_projeto}
+    \end{figure}
+
+    Após o cálculo das métricas, o pesquisador pode realizar consultas aos dados calculados pela ferramenta. A figura 
+    \ref{fig:screen_query} exibe a tela na qual é possível inserir uma consulta em SQL ao banco de dados do MetriMiner.
+    Depois de salvar a query, uma nova tarefa é adicionada à fila de execução e, ao final dessa tarefa, o pesquisador
+    pode baixar o resultado de sua métrica em um arquivo CSV (Comma Separated Values).
+    
+    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.95\textwidth]{img/query.png}
+    \caption{Tela de consultas aos dados calculados}
+    \label{fig:screen_query}
+    \end{figure}
 %     SELECT result.* , a.*, c.date FROM LinesOfCodeResult AS result
 %     JOIN SourceCode s ON s.id=result.sourceCode_id 
 %     JOIN Artifact a ON a.id=s.artifact_id
 %     JOIN Commit_Artifact ca ON ca.artifacts_id=a.id
 %     JOIN Commit c ON c.id=ca.commits_id;
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.95\textwidth]{img/projeto.png}
-\caption{Tela de vizualização de projeto}
-\label{fig:screen_projeto}
-\end{figure}
 
 \section{Outras ferramentas} %breve comparação com outras ferramentas relacionadas existentes;
 
