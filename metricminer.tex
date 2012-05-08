@@ -32,14 +32,14 @@
     Este trabalho apresenta uma ferramenta web que oferece suporte ao 
     pesquisador da área de mineração de repositórios de software, o MetricMiner.
     Essa ferramenta armazena diversas informações de repositórios e calcula 
-    métricas de código fonte sobre todo o histórico dos projetos a partir
+    métricas de código fonte sobre o histórico dos projetos a partir
     dos seus sistemas de controle de versões.
-    Utilizando os softwares disponíveis atualmente, o pesquisador precisa configurar 
+    Utilizando os sistemas disponíveis atualmente, o pesquisador precisa configurar 
     a ferramenta localmente e baixar os projetos sobre os quais deseja calcular
-    suas métricas em um processo difícil, caro e demorado.
+    suas métricas.
     Com o MetricMiner, toda a interação é feita por meio de uma interface web, tornando
     o processo de pesquisa mais eficiente.
-    Além disso, o sistema disponibiliza uma base com dados de uma série de projetos 
+    Além disso, o sistema disponibiliza uma base com dados de vários de projetos 
     de código aberto sobre os quais um pesquisador pode extrair e relacionar 
     informações, além de submeter novas métricas para serem calculadas para
     esses projetos.
@@ -50,8 +50,8 @@
 Minerar repositórios de software é uma tarefa custosa. Para desenvolver uma 
 pesquisa na área, o pesquisador é obrigado a baixar diversos projetos
 em sua estação de trabalho, realizar uma série de cálculos sobre o código
-dos projetos e sobre os meta dados de seu repositório. Esse processo requer que
-o pesquisador instale diversos softwares e bibliotecas localmente para reaproveitar
+dos projetos e sobre os metadados de seu repositório. Esse processo requer que
+o pesquisador instale diversas ferramentas e bibliotecas localmente para reaproveitar
 as ferramentas desenvolvidas nessa área, em um processo difícil e demorado.
 
 Além de ser um processo complexo, esse tipo de pesquisa consome muitos recursos 
@@ -61,10 +61,10 @@ persistidos em um banco de dados, ocupando uma grande volume de disco.
 Só então o pesquisador pode calcular métricas sobre esses dados, além de 
 extrair relações entre os meta dados do histórico do sistema de controle de versão,
 gastando uma quantidade grande de processamento de CPU. Só depois de passar por todas
-essas etapas, é possível extrair dados e validar hipóteses através de análises estatísticas.
+essas etapas, é possível extrair dados e validar hipóteses por meio de análises estatísticas.
 
-A partir dessas dificuldades, surgiu a motivação para o desenvolvimento do MetricMiner,
-uma aplicação web que realiza todas as etapas custosas da mineração de um repositório
+Dessas dificuldades surgiu a motivação para o desenvolvimento do MetricMiner,
+uma aplicação web que realiza todas as etapas da mineração de um repositório
 de software. 
 
 % - comentar recursos gastos minerando localmente, disco, rede, processamento e o tempo que demora para completar todas as etapas
@@ -76,13 +76,13 @@ Para o desenvolvimento da aplicação web, foi utilizado o VRaptor, um arcabouço p
 em Java baseado no padrão de projeto MVC (Model-View-Controller). Para a armazenar os dados minerados
 foi utilizado o banco de dados MySQL e o ORM Hibernate. %(ref mvc, vraptor, hibernate)
 
-O MetricMiner surgiu a partir do rEvolution, uma ferramenta de linha de comando que extrai dados
-de um repositório local e persiste em banco de dados relacional. Com isso, o componente que faz a interface
-com o sistema de controle de versões pôde ser reutilizado no MetricMiner. Esse componente é bastante flexível em 
-relação ao sistema de controle de versão utilizado pelo projeto que será minerado. Para suportar um novo sistema
-de controle de versão é necessário apenas a implementação da intreface org.metricminer.SCM, que contém 
-operações básicas sobre os metadados do sistema de controle de versão. Até o momento, apenas o git possui suporte 
-na ferramenta. %(referencias git, revolution)
+O MetricMiner surgiu a partir do rEvolution\footnote[1]{http://github.com/mauricioaniche/rEvolution}, uma ferramenta de 
+linha de comando que extrai dadosde um repositório local e persiste em banco de dados relacional. Com isso,
+o componente que faz a interface com o sistema de controle de versões pôde ser reutilizado no MetricMiner. 
+Esse componente é bastante flexível em relação ao sistema de controle de versão utilizado pelo projeto que será minerado.
+Para suportar um novo sistema de controle de versão é necessário apenas a implementação da intreface org.metricminer.SCM, que contém 
+operações básicas sobre os metadados do sistema de controle de versão. Até o momento, já foi implementado suporte
+ao GIT.
 
 O MetricMiner se baseia na simulação de uma fila de execução para completar tarefas demoradas, como baixar
 repositórios, persistir suas informações no banco de dados e calcular métricas sobre o código fonte. 
@@ -98,7 +98,7 @@ os seus resultados no banco de dados.
 A arquitetura também é flexível em relação a criação de novas métricas de código. Para criar uma nova métrica, deve ser
 definida uma classe para representar os resultados do cálculo da métrica que serão armazenados no banco de dados
 e uma classe que implemente a interface org.metricminer.tasks.metric.common.Metric. O cálculo das métricas
-sobre o código dos projetos cadastrados é feito através da tarefa definida na classe org.metricminer.CalculateMetricTask.
+sobre o código dos projetos cadastrados é feito por meio da tarefa definida na classe org.metricminer.CalculateMetricTask.
 Ao ser executada na fila de execução, essa tarefa calcula uma determinada métrica para todas as versões de todos os 
 códigos fonte de um projeto. Até o momento já foram implementadas as métricas: 
 \begin{itemize} %(referencias métricas com aniche)
@@ -119,7 +119,7 @@ códigos fonte de um projeto. Até o momento já foram implementadas as métricas:
     do sistema de controle de versão do projeto no banco de dados. Ao final dessas tarefas, o usuário pode entrar na tela de detalhes
     do projeto cadastrado e vizualizar alguns dados simples do projeto cadastrado.
         
-    A figura \ref{fig:screen_projeto} mostra a tela de vizualização no MetricMiner do projeto Ant, software de código aberto da fundação 
+    A Figura \ref{fig:screen_projeto} mostra a tela de vizualização no MetricMiner do projeto Ant, software de código aberto da fundação 
     Apache com mais seis mil commits. Nesta tela, são exibidas informações básicas sobre o projeto como número de commits,
     número de commiters, url do repositório, data do primeiro e último commit. São exibidos também dois gráficos simples 
     nos quais pode ser vizualizado o número de commits nos últimos doze meses e o número de arquivos modificados em cada 
@@ -138,7 +138,7 @@ códigos fonte de um projeto. Até o momento já foram implementadas as métricas:
     \label{fig:screen_projeto}
     \end{figure}
 
-    Após o cálculo das métricas, o pesquisador pode realizar consultas aos dados calculados pela ferramenta. A figura 
+    Após o cálculo das métricas, o pesquisador pode realizar consultas aos dados calculados pela ferramenta. A Figura 
     \ref{fig:screen_query} exibe a tela na qual é possível inserir uma consulta em SQL ao banco de dados do MetriMiner.
     Depois de salvar a consulta, uma nova tarefa é adicionada à fila de execução e, ao final dessa tarefa, o pesquisador
     pode baixar o resultado de sua métrica em um arquivo CSV (Comma Separated Values).
@@ -172,8 +172,8 @@ códigos fonte de um projeto. Até o momento já foram implementadas as métricas:
     intreface de vizualização. Por esses motivo, o Sonar é muito utilizado na indústria e pouco utilizado na academia.
 
 \section{Conclusão}
-    O MetricMiner é uma ferramenta que agrega valor a área de mineração de respositórios de softwares, armazenando um grande volume
-    de dados de repositórios de projetos de código aberto e permitindo que os usuários extraiam essas informações arbitrariamente.
+    O MetricMiner é uma ferramenta que agrega valor a área de mineração de respositórios de software, armazenando um grande volume
+    de dados de repositórios de projetos de código aberto e permitindo que os usuários extraiam essas informações.
     Por ser uma aplicação web, suas funcionalidades são de fácil acesso ao pesquisador, ao contrário das ferramentas existentes.
 
     Futuramente, pretende-se implementar a interface com outros sistemas de controle de versão, paralelizar a implementação de alguns
