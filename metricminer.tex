@@ -140,7 +140,7 @@ códigos fonte de um projeto. Até o momento já foram implementadas as métricas:
 
     Após o cálculo das métricas, o pesquisador pode realizar consultas aos dados calculados pela ferramenta. A figura 
     \ref{fig:screen_query} exibe a tela na qual é possível inserir uma consulta em SQL ao banco de dados do MetriMiner.
-    Depois de salvar a query, uma nova tarefa é adicionada à fila de execução e, ao final dessa tarefa, o pesquisador
+    Depois de salvar a consulta, uma nova tarefa é adicionada à fila de execução e, ao final dessa tarefa, o pesquisador
     pode baixar o resultado de sua métrica em um arquivo CSV (Comma Separated Values).
     
     
@@ -156,9 +156,28 @@ códigos fonte de um projeto. Até o momento já foram implementadas as métricas:
 %     JOIN Commit_Artifact ca ON ca.artifacts_id=a.id
 %     JOIN Commit c ON c.id=ca.commits_id;
 
+    Até o momento, o MetricMiner conta com uma base com dados de X projetos de código aberto sobre os quais é possível
+    calcular métricas e extrair qualquer informações por meio de sua interface ou da implementação de novas 
+    tarefas. O código do projeto está disponível publicamente\footnote[1]{http://github.com/csokol/MetricMiner}, de 
+    forma que qualquer colaborador pode submeter novas tarefas e métricas que serão acrescentadas à ferramenta e executadas
+    sobre os projetos consolidados na base de dados já consolidada.
 
-\section{Outras ferramentas} %breve comparação com outras ferramentas relacionadas existentes;
 
+\section{Ferramentas relacionadas} %breve comparação com outras ferramentas relacionadas existentes;
+    Atualmente, não existem ferramentas web de suporte a mineração de repositórios de software. Uma ferramenta que se assemelha
+    ao MetricMiner, é o Sonar \footnote[1]{http://www.sonarsource.org/}, uma ferramenta web que analisa o código fonte e 
+    extrai uma variedade de relatórios sobre o sistema, como resultados de métricas de código e dependências estruturais entre
+    as classes. O foco desta ferramenta é apoiar a equipe de desenvolvimento e acompanhar a qualidade do código escrito. O Sonar 
+    não armazena dados do repositório. O Sonar não permite que se extraia dados dos projetos armazenados, e fornece uma ótima
+    intreface de vizualização. Por esses motivo, o Sonar é muito utilizado na indústria e pouco utilizado na academia.
+
+\section{Conclusão}
+    O MetricMiner é uma ferramenta que agrega valor a área de mineração de respositórios de softwares, armazenando um grande volume
+    de dados de repositórios de projetos de código aberto e permitindo que os usuários extraiam essas informações arbitrariamente.
+    Por ser uma aplicação web, suas funcionalidades são de fácil acesso ao pesquisador, ao contrário das ferramentas existentes.
+
+    Futuramente, pretende-se implementar a interface com outros sistemas de controle de versão, paralelizar a implementação de alguns
+    algoritmos para tornar o processo de mineração mais eficiente e desenvolver novas métricas de código.
 
 \section{Referências}
 
