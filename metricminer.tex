@@ -72,47 +72,57 @@ de software.
 
 \section{Arquitetura} % arquitetura de solução da ferramenta;
 
-Para o desenvolvimento da aplicação web, foi utilizado o VRaptor, um arcabouço para desenvolvimento web
-em Java baseado no padrão de projeto MVC (Model-View-Controller). Para a armazenar os dados minerados
-foi utilizado o banco de dados MySQL e o ORM Hibernate. %(ref mvc, vraptor, hibernate)
+    Para o desenvolvimento da aplicação web, foi utilizado o VRaptor, um arcabouço para desenvolvimento web
+    em Java baseado no padrão de projeto MVC (Model-View-Controller). Para a armazenar os dados minerados
+    foi utilizado o banco de dados MySQL e o ORM Hibernate. %(ref mvc, vraptor, hibernate)
 
-O MetricMiner surgiu a partir do rEvolution\footnote[1]{http://github.com/mauricioaniche/rEvolution}, uma ferramenta de 
-linha de comando que extrai dadosde um repositório local e persiste em banco de dados relacional. Com isso,
-o componente que faz a interface com o sistema de controle de versões pôde ser reutilizado no MetricMiner. 
-Esse componente é bastante flexível em relação ao sistema de controle de versão utilizado pelo projeto que será minerado.
-Para suportar um novo sistema de controle de versão é necessário apenas a implementação da intreface org.metricminer.SCM, que contém 
-operações básicas sobre os metadados do sistema de controle de versão. Até o momento, já foi implementado suporte
-ao GIT.
-
-O MetricMiner se baseia na simulação de uma fila de execução para completar tarefas demoradas, como baixar
-repositórios, persistir suas informações no banco de dados e calcular métricas sobre o código fonte. 
-Para isso, o componente que processa a fila de execução, extrai as informações da tarefa do banco de
-dados, constrói os objetos necessários para a execução da tarefa e a executa. A arquitetura é bastante
-flexível nesse ponto, de forma que para a definição de uma nova tarefa é necessário apenas que sejam desenvolvidas
-duas classes que implementam as interfaces org.metricminer.RunnableTask e org.metricminer.RunnableTaskFactory.
-
-Cada tarefa implementada tem acesso ao projeto sobre o qual a tarefa será executada e uma conexão com o 
-banco de dados. Dessa forma, cada tarefa pode extrair e relacionar qualquer informação do projeto e persistir
-os seus resultados no banco de dados.
-
-A arquitetura também é flexível em relação a criação de novas métricas de código. Para criar uma nova métrica, deve ser
-definida uma classe para representar os resultados do cálculo da métrica que serão armazenados no banco de dados
-e uma classe que implemente a interface org.metricminer.tasks.metric.common.Metric. O cálculo das métricas
-sobre o código dos projetos cadastrados é feito por meio da tarefa definida na classe org.metricminer.CalculateMetricTask.
-Ao ser executada na fila de execução, essa tarefa calcula uma determinada métrica para todas as versões de todos os 
-códigos fonte de um projeto. Até o momento já foram implementadas as métricas: 
-\begin{itemize} %(referencias métricas com aniche)
-    \item Complexidade Ciclomática
-    \item Falta de Coesão dos Métodos (LCOM)
-    \item Fan-out
-    \item Quantidade de Linhas de Código (LOC) 
-    \item Quantidade de Invocações de Métodos
-\end{itemize}
+    O MetricMiner se baseia na simulação de uma fila de execução para completar tarefas demoradas, como clonar
+    repositórios, persistir suas informações no banco de dados e calcular métricas sobre o código fonte. 
+    Para isso, o componente que processa a fila de execução, extrai as informações da tarefa do banco de
+    dados, constrói os objetos necessários para a execução da tarefa e a executa.
     
-% - explicar o processo: cadastrar projeto, cadastrar tarefas, executar tarefas
-% - explicar arquitetura do TaskRunner e como plugar novas tasks
-% - explicar a arquitetura do CalculateMetricTask e como plugar novas métricas nele
+    O processo de mineração dos dados e cálculo das métricas implementado pode ser observado no diagrama da Figura
+    \ref{fig:diagrama}. Cada tarefa representada por uma classe executa uma etapa do processo.
+    Ao final, todas as informações do projeto estão persistidas no banco de dados e disponíveis
+    para serem extraídas pelo pesquisador. É importante ressaltar que após a extração dos metadados do sistema
+    de controle de versão, é possível implementar novas métricas para serem calculadas sobre o código, sem precisar
+    executar todos os passos anteriores novamente.
+    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/diagrama.png}
+    \caption{Diagrama do processo de mineração realizado pelo MetricMiner}
+    \label{fig:diagrama}
+    \end{figure}
 
+    A arquitetura é bastante flexível na definição de novas tarefas, é necessário apenas que sejam desenvolvidas
+    duas classes que implementam as interfaces org.metricminer.RunnableTask e org.metricminer.RunnableTaskFactory.
+    Cada tarefa implementada tem acesso ao projeto sobre o qual a tarefa será executada e uma conexão com o 
+    banco de dados. Dessa forma, cada tarefa pode extrair e relacionar qualquer informação do projeto e persistir
+    os seus resultados no banco de dados.
+
+    O MetricMiner surgiu a partir do rEvolution\footnote[1]{http://github.com/mauricioaniche/rEvolution}, uma ferramenta de 
+    linha de comando que extrai dados de um repositório local e persiste em banco de dados relacional. Com isso,
+    o componente que faz a interface com o sistema de controle de versões pôde ser reutilizado no MetricMiner. 
+    Esse componente é bastante flexível em relação ao sistema de controle de versão utilizado pelo projeto que será minerado.
+    Para suportar um novo sistema de controle de versão é necessário apenas a implementação da intreface org.metricminer.SCM, que contém 
+    operações básicas sobre os metadados do sistema de controle de versão. Até o momento, já foi implementado suporte
+    ao GIT.
+
+    A arquitetura também é flexível em relação a criação de novas métricas de código. Para criar uma nova métrica, deve ser
+    definida uma classe para representar os resultados do cálculo da métrica que serão armazenados no banco de dados
+    e uma classe que implemente a interface org.metricminer.tasks.metric.common.Metric. O cálculo das métricas
+    sobre o código dos projetos cadastrados é feito por meio da tarefa definida na classe org.metricminer.CalculateMetricTask.
+    Ao ser executada na fila de execução, essa tarefa calcula uma determinada métrica para todas as versões de todos os 
+    códigos fonte de um projeto. Até o momento já foram implementadas as métricas: 
+    \begin{itemize} %(referencias métricas com aniche)
+        \item Complexidade Ciclomática
+        \item Falta de Coesão dos Métodos (LCOM)
+        \item Fan-out
+        \item Quantidade de Linhas de Código (LOC) 
+        \item Quantidade de Invocações de Métodos
+    \end{itemize}
+        
 \section{Principais funcionalidades} % descrição das principais funcionalidades;
     Para cadastrar um projeto, o usuário deve fornecer o nome e a url do repositório do código do projeto. Depois de salvar,
     são inseridas novas tarefas na fila de execução que irão baixar o código do respositório e persistir os dados
@@ -143,18 +153,12 @@ códigos fonte de um projeto. Até o momento já foram implementadas as métricas:
     Depois de salvar a consulta, uma nova tarefa é adicionada à fila de execução e, ao final dessa tarefa, o pesquisador
     pode baixar o resultado de sua métrica em um arquivo CSV (Comma Separated Values).
     
-    
     \begin{figure}[ht]
     \centering
     \includegraphics[width=0.95\textwidth]{img/query.png}
     \caption{Tela de consultas aos dados calculados}
     \label{fig:screen_query}
     \end{figure}
-%     SELECT result.* , a.*, c.date FROM LinesOfCodeResult AS result
-%     JOIN SourceCode s ON s.id=result.sourceCode_id 
-%     JOIN Artifact a ON a.id=s.artifact_id
-%     JOIN Commit_Artifact ca ON ca.artifacts_id=a.id
-%     JOIN Commit c ON c.id=ca.commits_id;
 
     Até o momento, o MetricMiner conta com uma base com dados de X projetos de código aberto sobre os quais é possível
     calcular métricas e extrair qualquer informações por meio de sua interface ou da implementação de novas 
@@ -164,12 +168,19 @@ códigos fonte de um projeto. Até o momento já foram implementadas as métricas:
 
 
 \section{Ferramentas relacionadas} %breve comparação com outras ferramentas relacionadas existentes;
+    Nesta seção serão apresentadas ferramentas que se relacionam ao MetricMiner.
+    \subsection{Sonar}
     Não se conhece ferramentas web de suporte a mineração de repositórios de software. Uma ferramenta que se assemelha
     ao MetricMiner, é o Sonar \footnote[1]{http://www.sonarsource.org/}, uma ferramenta web que analisa o código fonte e 
     extrai uma variedade de relatórios sobre o sistema, como resultados de métricas de código e dependências estruturais entre
     as classes. O foco desta ferramenta é apoiar a equipe de desenvolvimento e acompanhar a qualidade do código escrito. O Sonar 
-    não armazena dados do repositório. O Sonar não permite que se extraia dados dos projetos armazenados, e fornece uma ótima
-    intreface de vizualização. Por esses motivo, o Sonar é muito utilizado na indústria e pouco utilizado na academia.
+    não armazena dados do sistema de controle versão e não permite que se extraia dados dos projetos armazenados, mas fornece uma ótima
+    interface de vizualização. Por esses motivo, o Sonar é muito utilizado na indústria e pouco utilizado para fins acadêmicos.
+    
+    \subsection{Eclipse Metrics}
+    O Eclipse Metrics é um plugin para o Eclipse que calcula uma variedade de métricas de código no ambiente do desenvolvedor. Dessa
+    forma, para que se acompanhe a evolução do código do projeto é necessário executar manualmente o plugin para os releases que 
+    se deseja analisar.
 
 \section{Conclusão}
     O MetricMiner é uma ferramenta que agrega valor a área de mineração de respositórios de software, armazenando um grande volume
@@ -177,7 +188,8 @@ códigos fonte de um projeto. Até o momento já foram implementadas as métricas:
     Por ser uma aplicação web, suas funcionalidades são de fácil acesso ao pesquisador, ao contrário das ferramentas existentes.
 
     Futuramente, pretende-se implementar a interface com outros sistemas de controle de versão, paralelizar a implementação de alguns
-    algoritmos para tornar o processo de mineração mais eficiente e desenvolver novas métricas de código.
+    algoritmos para tornar o processo de mineração mais eficiente e desenvolver novas métricas de código. Além disso, pretende-se 
+    desenvolver uma API para que componentes externos ao MetricMiner implementem interfaces de vizualização dos dados minerados.
 
 \section{Referências}
 
