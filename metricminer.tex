@@ -48,31 +48,31 @@
 
 \section{Introdução} % descrição e motivação do problema tratado pela ferramenta;
 
-Minerar repositórios de software é uma tarefa custosa. Para desenvolver uma 
-pesquisa na área, o pesquisador é obrigado a baixar diversos projetos
-em sua estação de trabalho, realizar uma série de cálculos sobre o código
-dos projetos e sobre os metadados de seu repositório. Esse processo requer que
-o pesquisador instale diversas ferramentas e bibliotecas localmente para reaproveitar
-as ferramentas desenvolvidas nessa área, tornando o processo trabalhoso e demorado.
+    Minerar repositórios de software é uma tarefa custosa. Para desenvolver uma 
+    pesquisa na área, o pesquisador é obrigado a baixar diversos projetos
+    em sua estação de trabalho, realizar uma série de cálculos sobre o código
+    dos projetos e sobre os metadados de seu repositório. Esse processo requer que
+    o pesquisador instale diversas ferramentas e bibliotecas localmente para reaproveitar
+    as ferramentas desenvolvidas nessa área, tornando o processo trabalhoso e demorado.
 
-Além de ser um processo complexo, esse tipo de pesquisa consome muitos recursos 
-computacionais. Baixar os repositórios a serem minerados consome um 
-volume considerável de banda. Depois, os dados devem ser processados e 
-persistidos em um banco de dados, ocupando uma grande volume de disco.
-Só então o pesquisador pode calcular métricas sobre esses dados, além de 
-extrair relações entre os meta dados do histórico do sistema de controle de versão,
-gastando uma quantidade grande de processamento de CPU. Só depois de passar por todas
-essas etapas, é possível extrair dados e validar hipóteses por meio de análises estatísticas.
+    Além de ser um processo complexo, esse tipo de pesquisa consome muitos recursos 
+    computacionais. Baixar os repositórios a serem minerados consome um 
+    volume considerável de banda. Depois, os dados devem ser processados e 
+    persistidos em um banco de dados, ocupando uma grande volume de disco.
+    Só então o pesquisador pode calcular métricas sobre esses dados, além de 
+    extrair relações entre os meta dados do histórico do sistema de controle de versão,
+    gastando uma quantidade grande de processamento de CPU. Só depois de passar por todas
+    essas etapas, é possível extrair dados e validar hipóteses por meio de análises estatísticas.
 
-Dessas dificuldades surgiu a motivação para o desenvolvimento do MetricMiner,
-uma aplicação web que realiza todas as etapas da mineração de um repositório
-de \textit{software}.
+    Dessas dificuldades surgiu a motivação para o desenvolvimento do MetricMiner,
+    uma aplicação web que realiza todas as etapas da mineração de um repositório
+    de \textit{software}.
 
-Na próxima seção será descrita a arquitetura da ferramenta desenvolvida para solucionar
-o problema descrito. Na seção três serão apresentadas brevemente as principais funcionalidades
-implementadas no MetricMiner. Na quarta seção, algumas ferramentas relacionadas ao \textit{software}
-desenvolvido serão exibidas e analisadas. Na última seção, concluímos o artigo mostrando
-como a ferramenta desenvolvida contribui na área de mineração de repositórios de \textit{software}.
+    Na próxima seção será descrita a arquitetura da ferramenta desenvolvida para solucionar
+    o problema descrito. Na seção três serão apresentadas brevemente as principais funcionalidades
+    implementadas no MetricMiner. Na quarta seção, algumas ferramentas relacionadas ao \textit{software}
+    desenvolvido serão exibidas e analisadas. Na última seção, concluímos o artigo mostrando
+    como a ferramenta desenvolvida contribui na área de mineração de repositórios de \textit{software}.
 
 
 % - comentar recursos gastos minerando localmente, disco, rede, processamento e o tempo que demora para completar todas as etapas
@@ -102,10 +102,10 @@ como a ferramenta desenvolvida contribui na área de mineração de repositórios de
     executar todos os passos anteriores novamente.
     
     \begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.5\textwidth]{img/diagrama.png}
-    \caption{Diagrama do processo de mineração realizado pelo MetricMiner}
-    \label{fig:diagrama}
+        \centering
+        \includegraphics[width=0.5\textwidth]{img/diagrama.png}
+        \caption{Diagrama do processo de mineração realizado pelo MetricMiner}
+        \label{fig:diagrama}
     \end{figure}
 
     A arquitetura é flexível na definição de novas tarefas, é necessário apenas que sejam desenvolvidas
@@ -133,45 +133,45 @@ como a ferramenta desenvolvida contribui na área de mineração de repositórios de
             se todos os métodos acessam os mesmos atributos da classe em comum \cite{henderson:96}.
         \item \textbf{\textit{Fan-out}:} mede o acoplamento de uma classe, contando o número de invocações
             de métodos de outras classes \cite{lorenz:94}.
-        \item \textbf{Quantidade de Linhas de Código (LOC):} a contagem de linhas por método \cite{chidamber:94}.
-        \item \textbf{Quantidade de Invocações de Métodos:} a contagem de invocações por método\cite{li:93}.
+        \item \textbf{Quantidade de Linhas de Código (\textit{LOC}):} a contagem de linhas por método \cite{chidamber:94}.
+        \item \textbf{Quantidade de Invocações de Métodos:} a contagem de invocações por método \cite{li:93}.
     \end{itemize}
         
 \section{Principais funcionalidades} % descrição das principais funcionalidades;
-    Para cadastrar um projeto, o usuário deve fornecer o nome e a url do repositório do código do projeto. Depois de salvar,
-    são inseridas novas tarefas na fila de execução que irão baixar o código do respositório e persistir os dados
-    do sistema de controle de versão do projeto no banco de dados. Ao final dessas tarefas, o usuário pode entrar na tela de detalhes
-    do projeto cadastrado e vizualizar alguns dados simples do projeto cadastrado.
+    Para iniciar o processo de mineração, o usuário deve cadastrar um projeto no sistema, fornecendo o nome e a \textit{url} 
+    do repositório do código. Depois de salvar, são inseridas novas tarefas na fila de execução que irão baixar o código
+    do respositório e persistir os dados do sistema de controle de versão do projeto no banco de dados. Ao final dessas 
+    tarefas, o usuário pode entrar na tela de detalhes do projeto cadastrado e vizualizar alguns dados simples.
         
     A Figura \ref{fig:screen_projeto} mostra a tela de vizualização no MetricMiner do projeto Ant, software de código aberto da fundação 
-    Apache com mais seis mil commits. Nesta tela, são exibidas informações básicas sobre o projeto como número de commits,
-    número de commiters, url do repositório, data do primeiro e último commit. São exibidos também dois gráficos simples 
-    nos quais pode ser vizualizado o número de commits nos últimos doze meses e o número de arquivos modificados em cada 
-    commit nos últimos seis meses.
+    Apache com mais seis mil \textit{commits}. Nesta tela, são exibidas informações básicas sobre o projeto como número de \textit{commits},
+    número de \textit{commiters}, \textit{url} do repositório, data do primeiro e último \textit{commit}. São exibidos também dois gráficos simples 
+    nos quais pode ser vizualizado o número de \textit{commits} nos últimos doze meses e o número de arquivos modificados em cada 
+    \textit{commit} nos últimos seis meses.
     
-    Mais abaixo, na seção "Avaiable Metrics to Calculate", são exibidas as métricas disponíveis no MetricMiner e que ainda não
+    Mais abaixo, na seção ``\textit{Available Metrics to Calculate}'', são exibidas as métricas disponíveis no MetricMiner e que ainda não
     foram calculadas para o projeto. O usuário pode selecionar as métricas que deseja calcular e as tarefas para a realizaçao dos
-    cálculos serão inseridas à fila de execução. Na seção "Scheduled Tasks", as tarefas que já foram executadas podem ser
-    vizualizadas. Nesse caso, podemos ver que as métricas de complexidade ciclomática e a fan-out já foram calculadas, 
-    enquanto a LCOM e a quantidade de invocações de métodos estão na fila de execução para serem calculadas.
+    cálculos serão inseridas à fila de execução. Na seção ``\textit{Scheduled Tasks}'', as tarefas que já foram executadas podem ser
+    vizualizadas. Nesse caso, podemos ver que as métricas de complexidade ciclomática e a \textit{fan-out} já foram calculadas, 
+    enquanto a \textit{LCOM} e a quantidade de invocações de métodos estão na fila de execução para serem calculadas.
     
     \begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.95\textwidth]{img/projeto.png}
-    \caption{Tela de vizualização de projeto}
-    \label{fig:screen_projeto}
+        \centering
+        \includegraphics[width=0.95\textwidth]{img/projeto.png}
+        \caption{Tela de vizualização de projeto}
+        \label{fig:screen_projeto}
     \end{figure}
 
     Após o cálculo das métricas, o pesquisador pode realizar consultas aos dados calculados pela ferramenta. A Figura 
     \ref{fig:screen_query} exibe a tela na qual é possível inserir uma consulta em SQL ao banco de dados do MetriMiner.
     Depois de salvar a consulta, uma nova tarefa é adicionada à fila de execução e, ao final dessa tarefa, o pesquisador
-    pode baixar o resultado de sua métrica em um arquivo CSV (Comma Separated Values).
+    pode baixar o resultado de sua métrica em um arquivo CSV (\textit{Comma Separated Values}).
     
     \begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.95\textwidth]{img/query.png}
-    \caption{Tela de consultas aos dados calculados}
-    \label{fig:screen_query}
+        \centering
+        \includegraphics[width=0.95\textwidth]{img/query.png}
+        \caption{Tela de consultas aos dados calculados}
+        \label{fig:screen_query}
     \end{figure}
 
     Até o momento, o MetricMiner conta com uma base com dados de X projetos de código aberto sobre os quais é possível
@@ -184,26 +184,32 @@ como a ferramenta desenvolvida contribui na área de mineração de repositórios de
 \section{Ferramentas relacionadas} %breve comparação com outras ferramentas relacionadas existentes;
     Nesta seção serão apresentadas ferramentas que se relacionam ao MetricMiner.
     \subsection{Sonar}
-    Não se conhece ferramentas web de suporte a mineração de repositórios de software. Uma ferramenta que se assemelha
-    ao MetricMiner, é o Sonar \footnote[1]{http://www.sonarsource.org/}, uma ferramenta web que analisa o código fonte e 
-    extrai uma variedade de relatórios sobre o sistema, como resultados de métricas de código e dependências estruturais entre
-    as classes. O foco desta ferramenta é apoiar a equipe de desenvolvimento e acompanhar a qualidade do código escrito. O Sonar 
-    não armazena dados do sistema de controle versão e não permite que se extraia dados dos projetos armazenados, mas fornece uma ótima
-    interface de vizualização. Por esses motivo, o Sonar é muito utilizado na indústria e pouco utilizado para fins acadêmicos.
+        Não se conhece ferramentas web de suporte a mineração de repositórios de \textit{software}. Uma ferramenta que se assemelha
+        ao MetricMiner, é o Sonar \footnote[1]{http://www.sonarsource.org/}, uma ferramenta web que analisa o código fonte e 
+        extrai uma variedade de relatórios sobre o sistema, como resultados de métricas de código e dependências estruturais entre
+        as classes. O foco desta ferramenta é apoiar a equipe de desenvolvimento e acompanhar a qualidade do código escrito. O Sonar 
+        não armazena dados do sistema de controle versão e não permite que se extraia dados dos projetos armazenados, mas fornece uma ótima
+        interface de vizualização. Por esses motivo, o Sonar é muito utilizado na indústria e pouco utilizado para fins acadêmicos.
     
     \subsection{Eclipse Metrics}
-    O Eclipse Metrics é um plugin para o Eclipse que calcula uma variedade de métricas de código no ambiente do desenvolvedor. Dessa
-    forma, para que se acompanhe a evolução do código do projeto é necessário executar manualmente o plugin para os releases que 
-    se deseja analisar.
+        O Eclipse Metrics\footnote[2]{http://metrics.sourceforge.net/} é um \textit{plugin} para o Eclipse que calcula uma variedade 
+        de métricas de código no ambiente do desenvolvedor. Dessa forma, para que se acompanhe a evolução do código do 
+        projeto é necessário executar manualmente o \textit{plugin} para os \textit{releases} que se deseja analisar.
 
 \section{Conclusão}
-    O MetricMiner é uma ferramenta que agrega valor a área de mineração de respositórios de software, armazenando um grande volume
+    O MetricMiner é uma ferramenta que agrega valor a área de mineração de respositórios de \textit{software}, armazenando um grande volume
     de dados de repositórios de projetos de código aberto e permitindo que os usuários extraiam essas informações.
     Por ser uma aplicação web, suas funcionalidades são de fácil acesso ao pesquisador, ao contrário das ferramentas existentes.
+    
+    Através do MetricMiner, pesquisadores podem extrair dados pré-calculados, poupando tempo e recursos computacionais
+    necessários nos trabalhos realizados com as ferramentas disponíveis atualmente. Além disso, por ser um projeto de
+    código aberto com uma arquitetura flexível, a ferramenta permite que colaboradores desenvolvam novos componentes
+    que podem ser acrescentados ao sistema. Através dessa colaboração, pesquisadores poderão, por exemplo, submeter novas
+    métricas que serão calculadas sobre todos os projetos já consolidados na base de dados do MetricMiner.
 
     Futuramente, pretende-se implementar a interface com outros sistemas de controle de versão, paralelizar a implementação de alguns
     algoritmos para tornar o processo de mineração mais eficiente e desenvolver novas métricas de código. Além disso, pretende-se 
-    desenvolver uma API para que componentes externos ao MetricMiner implementem interfaces de vizualização dos dados minerados.
+    desenvolver uma \textit{API} para que componentes externos ao MetricMiner implementem interfaces de vizualização dos dados minerados.
 
 \bibliographystyle{sbc}
 \bibliography{metricminer}
