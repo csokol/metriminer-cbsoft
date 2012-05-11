@@ -74,10 +74,6 @@
     desenvolvido serão exibidas e analisadas. Na última seção, concluímos o artigo mostrando
     como a ferramenta desenvolvida contribui na área de mineração de repositórios de \textit{software}.
 
-
-% - comentar recursos gastos minerando localmente, disco, rede, processamento e o tempo que demora para completar todas as etapas
-% - comentar escalabilidade, cloud etc etc, escalar verticalmente facilmente
-
 \section{Arquitetura} % arquitetura de solução da ferramenta;
 
     Para o desenvolvimento da aplicação web, foi utilizado o VRaptor, um arcabouço para desenvolvimento web
@@ -114,9 +110,9 @@
     banco de dados. Dessa forma, cada tarefa pode extrair e relacionar qualquer informação do projeto e persistir
     os seus resultados no banco de dados.
 
-    O componente que realiza a interface com o sistema de controle de versão é bastante flexível em 
-    relação ao sistema utilizado pelo projeto que será minerado. Para suportar um novo sistema de controle de versão,
-    é necessário apenas a implementação da intreface org.metricminer.SCM, que contém operações básicas sobre os metadados do 
+    O componente que realiza a interface com o sistema de controle de versão é flexível em relação ao sistema 
+    utilizado pelo projeto que será minerado. Para suportar um novo sistema de controle de versão, é necessário 
+    apenas a implementação da intreface org.metricminer.SCM, que contém operações básicas sobre os metadados do 
     sistema de controle de versão. Até o momento, já foi implementado suporte ao GIT.
 
     A arquitetura também é flexível em relação a criação de novas métricas de código. Para criar uma nova métrica, deve ser
@@ -190,11 +186,17 @@
         as classes. O foco desta ferramenta é apoiar a equipe de desenvolvimento e acompanhar a qualidade do código escrito. O Sonar 
         não armazena dados do sistema de controle versão e não permite que se extraia dados dos projetos armazenados, mas fornece uma ótima
         interface de vizualização. Por esses motivo, o Sonar é muito utilizado na indústria e pouco utilizado para fins acadêmicos.
+        
+        Diferentemente do Sonar, o MetricMiner tem o foco na área acadêmica, permitindo que os usuários extraiam dados calculados
+        pelo sistema para realizar a análise que desejar, sem focar tanto na vizualização dos dados armazenados.
     
     \subsection{Eclipse Metrics}
         O Eclipse Metrics\footnote[2]{http://metrics.sourceforge.net/} é um \textit{plugin} para o Eclipse que calcula uma variedade 
         de métricas de código no ambiente do desenvolvedor. Dessa forma, para que se acompanhe a evolução do código do 
-        projeto é necessário executar manualmente o \textit{plugin} para os \textit{releases} que se deseja analisar.
+        projeto é necessário executar manualmente o \textit{plugin} para os \textit{releases} que se deseja analisar. No MetricMiner,
+        o cálculo das métricas é realizado sobre todo o histórico de versões do projeto analisado, sem que o usuário precise selecionar
+        as versões manualmente. Além disso, não é necessário que o usuário configure nada em seu ambiente e nem que mantenha
+        as versões que deseja analisar localmente.
 
 \section{Conclusão}
     O MetricMiner é uma ferramenta que agrega valor a área de mineração de respositórios de \textit{software}, armazenando um grande volume
