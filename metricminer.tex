@@ -12,13 +12,13 @@
 
 \title{MetricMiner: uma ferramenta web de apoio à mineração de repositórios de software}
 
-\author{Francisco Zigmund Sokol\inst{1}, Mauricio Aniche\inst{1}, Marco Aurélio Gerosa\inst{1}}
+\author{Francisco Zigmund Sokol\inst{1}, Mauricio Fivaro Aniche\inst{1}, Marco Aurélio Gerosa\inst{1}}
 
 
 \address{Instituto de Matemática e Estatística -- Universidade de São Paulo
   (USP)\\
   Rua do Matão, 1010 -- 05508-090 -- São Paulo -- SP -- Brasil
-  \email{chico.sokol@gmail.com, aniche@ime.usp.br, gerosa@ime.usp.br}
+  \email{chico.sokol@gmail.com, \{aniche,gerosa\}@ime.usp.br}
 }
 
 \begin{document} 
@@ -45,14 +45,14 @@
     esses projetos.
 \end{resumo}
 
-\section{Motivação} % descrição e motivação do problema tratado pela ferramenta;
+\section{Introdução} % descrição e motivação do problema tratado pela ferramenta;
 
 Minerar repositórios de software é uma tarefa custosa. Para desenvolver uma 
 pesquisa na área, o pesquisador é obrigado a baixar diversos projetos
 em sua estação de trabalho, realizar uma série de cálculos sobre o código
 dos projetos e sobre os metadados de seu repositório. Esse processo requer que
 o pesquisador instale diversas ferramentas e bibliotecas localmente para reaproveitar
-as ferramentas desenvolvidas nessa área, em um processo difícil e demorado.
+as ferramentas desenvolvidas nessa área, tornando o processo trabalhoso e demorado.
 
 Além de ser um processo complexo, esse tipo de pesquisa consome muitos recursos 
 computacionais. Baixar os repositórios a serem minerados consome um 
@@ -65,7 +65,14 @@ essas etapas, é possível extrair dados e validar hipóteses por meio de análises 
 
 Dessas dificuldades surgiu a motivação para o desenvolvimento do MetricMiner,
 uma aplicação web que realiza todas as etapas da mineração de um repositório
-de software. 
+de \textit{software}.
+
+Na próxima seção será descrita a arquitetura da ferramenta desenvolvida para solucionar
+o problema descrito. Na seção três serão apresentadas brevemente as principais funcionalidades
+implementadas no MetricMiner. Na quarta seção, algumas ferramentas relacionadas ao \textit{software}
+desenvolvido serão exibidas e analisadas. Na última seção, concluímos o artigo mostrando
+como a ferramenta desenvolvida contribui na área de mineração de repositórios de \textit{software}.
+
 
 % - comentar recursos gastos minerando localmente, disco, rede, processamento e o tempo que demora para completar todas as etapas
 % - comentar escalabilidade, cloud etc etc, escalar verticalmente facilmente
@@ -73,17 +80,22 @@ de software.
 \section{Arquitetura} % arquitetura de solução da ferramenta;
 
     Para o desenvolvimento da aplicação web, foi utilizado o VRaptor, um arcabouço para desenvolvimento web
-    em Java baseado no padrão de projeto MVC (Model-View-Controller). Para a armazenar os dados minerados
-    foi utilizado o banco de dados MySQL e o ORM Hibernate. %(ref mvc, vraptor, hibernate)
-
-    O MetricMiner se baseia na simulação de uma fila de execução para completar tarefas demoradas, como clonar
-    repositórios, persistir suas informações no banco de dados e calcular métricas sobre o código fonte. 
-    Para isso, o componente que processa a fila de execução, extrai as informações da tarefa do banco de
-    dados, constrói os objetos necessários para a execução da tarefa e a executa.
+    em Java baseado no padrão de projeto MVC (\textit{Model-View-Controller}). Para a armazenar os dados minerados
+    foi utilizado o banco de dados MySQL e o arcabouço de mapeamento objeto-relacional Hibernate. %(ref mvc, vraptor, hibernate)
     
-    O processo de mineração dos dados e cálculo das métricas implementado pode ser observado no diagrama da Figura
-    \ref{fig:diagrama}. Cada tarefa representada por uma classe executa uma etapa do processo.
-    Ao final, todas as informações do projeto estão persistidas no banco de dados e disponíveis
+    O MetricMiner surgiu a partir do rEvolution\footnote[1]{http://github.com/mauricioaniche/rEvolution}, uma ferramenta de 
+    linha de comando que extrai dados de um repositório local e persiste em banco de dados relacional. Grande parte
+    do código do rEvolution pôde ser reutilizado no MetricMiner, como o componente que realiza a interface 
+    com o sistema de controle de versão.
+
+    Algumas etapas da mineração de dados são demoradas, como clonar repositórios, persistir suas informações 
+    no banco de dados e calcular métricas sobre o código fonte. Com isso, optou-se por executar essas tarefas
+    de maneira assíncrona, através da simulação de uma fila de execução. Cada tarefa é 
+    armazenada no banco de dados e processada por um componente que constrói as dependências de cada tarefa e 
+    as executa na ordem em que foram cadastradas. A Figura \ref{fig:diagrama} descreve as tarefas envolvidas  
+    no processo de mineração sobre algum repositório de software cadastrado na ferramenta.
+    
+    Ao final desse processo, todas as informações do projeto estão persistidas no banco de dados e disponíveis
     para serem extraídas pelo pesquisador. É importante ressaltar que após a extração dos metadados do sistema
     de controle de versão, é possível implementar novas métricas para serem calculadas sobre o código, sem precisar
     executar todos os passos anteriores novamente.
@@ -95,19 +107,16 @@ de software.
     \label{fig:diagrama}
     \end{figure}
 
-    A arquitetura é bastante flexível na definição de novas tarefas, é necessário apenas que sejam desenvolvidas
+    A arquitetura é flexível na definição de novas tarefas, é necessário apenas que sejam desenvolvidas
     duas classes que implementam as interfaces org.metricminer.RunnableTask e org.metricminer.RunnableTaskFactory.
     Cada tarefa implementada tem acesso ao projeto sobre o qual a tarefa será executada e uma conexão com o 
     banco de dados. Dessa forma, cada tarefa pode extrair e relacionar qualquer informação do projeto e persistir
     os seus resultados no banco de dados.
 
-    O MetricMiner surgiu a partir do rEvolution\footnote[1]{http://github.com/mauricioaniche/rEvolution}, uma ferramenta de 
-    linha de comando que extrai dados de um repositório local e persiste em banco de dados relacional. Com isso,
-    o componente que faz a interface com o sistema de controle de versões pôde ser reutilizado no MetricMiner. 
-    Esse componente é bastante flexível em relação ao sistema de controle de versão utilizado pelo projeto que será minerado.
-    Para suportar um novo sistema de controle de versão é necessário apenas a implementação da intreface org.metricminer.SCM, que contém 
-    operações básicas sobre os metadados do sistema de controle de versão. Até o momento, já foi implementado suporte
-    ao GIT.
+    O componente que realiza a interface com o sistema de controle de versão é bastante flexível em 
+    relação ao sistema utilizado pelo projeto que será minerado. Para suportar um novo sistema de controle de versão,
+    é necessário apenas a implementação da intreface org.metricminer.SCM, que contém operações básicas sobre os metadados do 
+    sistema de controle de versão. Até o momento, já foi implementado suporte ao GIT.
 
     A arquitetura também é flexível em relação a criação de novas métricas de código. Para criar uma nova métrica, deve ser
     definida uma classe para representar os resultados do cálculo da métrica que serão armazenados no banco de dados
