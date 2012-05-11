@@ -3,6 +3,7 @@
 \usepackage{sbc-template}
 
 \usepackage{url}
+\usepackage{tipa}
 \usepackage[pdftex]{graphicx}           % usamos arquivos pdf/png como figuras
 
 \usepackage[brazil]{babel}   
@@ -123,13 +124,17 @@ como a ferramenta desenvolvida contribui na área de mineração de repositórios de
     e uma classe que implemente a interface org.metricminer.tasks.metric.common.Metric. O cálculo das métricas
     sobre o código dos projetos cadastrados é feito por meio da tarefa definida na classe org.metricminer.CalculateMetricTask.
     Ao ser executada na fila de execução, essa tarefa calcula uma determinada métrica para todas as versões de todos os 
-    códigos fonte de um projeto. Até o momento já foram implementadas as métricas: 
+    códigos fonte de um projeto. A seguir encontra-se a lista das métricas implementadas acompanhadas de uma breve explicação: 
     \begin{itemize} %(referencias métricas com aniche)
-        \item Complexidade Ciclomática
-        \item Falta de Coesão dos Métodos (LCOM)
-        \item Fan-out
-        \item Quantidade de Linhas de Código (LOC) 
-        \item Quantidade de Invocações de Métodos
+        \item \textbf{Complexidade Ciclomática:} mede a complexidade do código, quanto maior o número de instruções como 
+            \textit{if}, \textit{while}, \textit{case}, \textit{\&\&}, \textpipe\textpipe, ou \textit{?}, mais complexo é o código
+            e portanto, maior o valor da métrica \cite{maccabe:76}.
+        \item \textbf{Falta de Coesão dos Métodos (\textit{LCOM}):} mede a coesão, considerando que uma classe é coesa 
+            se todos os métodos acessam os mesmos atributos da classe em comum \cite{henderson:96}.
+        \item \textbf{\textit{Fan-out}:} mede o acoplamento de uma classe, contando o número de invocações
+            de métodos de outras classes \cite{lorenz:94}.
+        \item \textbf{Quantidade de Linhas de Código (LOC):} a contagem de linhas por método \cite{chidamber:94}.
+        \item \textbf{Quantidade de Invocações de Métodos:} a contagem de invocações por método\cite{li:93}.
     \end{itemize}
         
 \section{Principais funcionalidades} % descrição das principais funcionalidades;
@@ -200,9 +205,7 @@ como a ferramenta desenvolvida contribui na área de mineração de repositórios de
     algoritmos para tornar o processo de mineração mais eficiente e desenvolver novas métricas de código. Além disso, pretende-se 
     desenvolver uma API para que componentes externos ao MetricMiner implementem interfaces de vizualização dos dados minerados.
 
-\section{Referências}
-
 \bibliographystyle{sbc}
-\bibliography{sbc-template}
+\bibliography{metricminer}
 
 \end{document}

@@ -2,3 +2,5 @@
 *.pdf
 *.aux
 *.kate-swp
+*.bbl
+*.blg
