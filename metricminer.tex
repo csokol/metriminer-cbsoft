@@ -19,27 +19,35 @@
 \address{Instituto de Matemática e Estatística -- Universidade de São Paulo
   (USP)\\
   Rua do Matão, 1010 -- 05508-090 -- São Paulo -- SP -- Brasil
-  \email{chico.sokol@gmail.com, \{aniche,gerosa\}@ime.usp.br}
+  \email{csokol@linux.ime.usp.br, \{aniche,gerosa\}@ime.usp.br}
 }
 
 \begin{document} 
 
 \maketitle
 
-\begin{abstract}    
+\begin{abstract}
+    This paper present MetricMiner, a web application that provide support to researchers
+    of mining software repositories. This tool store several information of repositories
+    and calculates source code metrics over the history of the projects from their source
+    control management systems. Using the systems avaiable presently, the researcher
+    need to configure the system and download the projects in which he wants to 
+    calculate his metrics. Using MetricMiner, all the interaction is complete through
+    a web interface. Furthermore, the system provides a database with several open 
+    source projects in which researchers may extract and relate their data, in addition
+    to submit new metrics to be calculated over these projects.
+    
 \end{abstract}
      
 \begin{resumo} 
-    Este trabalho apresenta uma ferramenta web que oferece suporte ao 
-    pesquisador da área de mineração de repositórios de software, o MetricMiner.
+    Este trabalho apresenta o MetricMiner, uma ferramenta web que oferece suporte ao 
+    pesquisador da área de mineração de repositórios de software.
     Essa ferramenta armazena diversas informações de repositórios e calcula 
     métricas de código fonte sobre o histórico dos projetos a partir
     dos seus sistemas de controle de versões.
     Utilizando os sistemas disponíveis atualmente, o pesquisador precisa configurar 
-    a ferramenta localmente e baixar os projetos sobre os quais deseja calcular
-    suas métricas.
-    Com o MetricMiner, toda a interação é feita por meio de uma interface web, tornando
-    o processo de pesquisa mais eficiente.
+    o sistema e baixar os projetos sobre os quais deseja calcular suas métricas.
+    Com o MetricMiner, toda a interação é feita por meio de uma interface web.
     Além disso, o sistema disponibiliza uma base com dados de vários de projetos 
     de código aberto sobre os quais um pesquisador pode extrair e relacionar 
     informações, além de submeter novas métricas para serem calculadas para
@@ -60,27 +68,28 @@
     volume considerável de banda. Depois, os dados devem ser processados e 
     persistidos em um banco de dados, ocupando uma grande volume de disco.
     Só então o pesquisador pode calcular métricas sobre esses dados, além de 
-    extrair relações entre os meta dados do histórico do sistema de controle de versão,
+    extrair relações entre os metadados do histórico do sistema de controle de versão,
     gastando uma quantidade grande de processamento de CPU. Só depois de passar por todas
-    essas etapas, é possível extrair dados e validar hipóteses por meio de análises estatísticas.
+    essas etapas, é possível extrair dados e avaliar hipóteses por meio de análises estatísticas.
 
     Dessas dificuldades surgiu a motivação para o desenvolvimento do MetricMiner,
     uma aplicação web que realiza todas as etapas da mineração de um repositório
-    de \textit{software}.
+    de software.
 
-    Na próxima seção será descrita a arquitetura da ferramenta desenvolvida para solucionar
-    o problema descrito. Na seção três serão apresentadas brevemente as principais funcionalidades
-    implementadas no MetricMiner. Na quarta seção, algumas ferramentas relacionadas ao \textit{software}
-    desenvolvido serão exibidas e analisadas. Na última seção, concluímos o artigo mostrando
-    como a ferramenta desenvolvida contribui na área de mineração de repositórios de \textit{software}.
+    Na próxima seção é exibida a arquitetura da ferramenta desenvolvida para solucionar
+    o problema descrito. Na Seção 3 são apresentadas brevemente as principais funcionalidades
+    implementadas no MetricMiner. Na Seção 4, algumas ferramentas relacionadas ao software
+    desenvolvido serão exibidas e analisadas. A última seção traz a conclusão do artigo, mostrando
+    como a ferramenta desenvolvida contribui na área de mineração de repositórios de software.
 
 \section{Arquitetura} % arquitetura de solução da ferramenta;
 
-    Para o desenvolvimento da aplicação web, foi utilizado o VRaptor, um arcabouço para desenvolvimento web
-    em Java baseado no padrão de projeto MVC (\textit{Model-View-Controller}). Para a armazenar os dados minerados
-    foi utilizado o banco de dados MySQL e o arcabouço de mapeamento objeto-relacional Hibernate. %(ref mvc, vraptor, hibernate)
+    Para o desenvolvimento da aplicação web, foi utilizado o VRaptor\footnote{http://vraptor.caelum.com.br/}, 
+    um arcabouço para desenvolvimento web em Java baseado no padrão de projeto MVC (\textit{Model-View-Controller}). 
+    Para a armazenar os dados minerados foi utilizado o banco de dados MySQL e o arcabouço de mapeamento 
+    objeto-relacional Hibernate\footnote{http://www.hibernate.org/}. %(ref mvc, vraptor, hibernate)
     
-    O MetricMiner surgiu a partir do rEvolution\footnote[1]{http://github.com/mauricioaniche/rEvolution}, uma ferramenta de 
+    O MetricMiner surgiu a partir do rEvolution\footnote{http://github.com/mauricioaniche/rEvolution}, uma ferramenta de 
     linha de comando que extrai dados de um repositório local e persiste em banco de dados relacional. Grande parte
     do código do rEvolution pôde ser reutilizado no MetricMiner, como o componente que realiza a interface 
     com o sistema de controle de versão.
@@ -90,7 +99,7 @@
     de maneira assíncrona, através da simulação de uma fila de execução. Cada tarefa é 
     armazenada no banco de dados e processada por um componente que constrói as dependências de cada tarefa e 
     as executa na ordem em que foram cadastradas. A Figura \ref{fig:diagrama} descreve as tarefas envolvidas  
-    no processo de mineração sobre algum repositório de software cadastrado na ferramenta.
+    no processo de mineração sobre um repositório de software cadastrado na ferramenta.
     
     Ao final desse processo, todas as informações do projeto estão persistidas no banco de dados e disponíveis
     para serem extraídas pelo pesquisador. É importante ressaltar que após a extração dos metadados do sistema
@@ -99,7 +108,7 @@
     
     \begin{figure}[ht]
         \centering
-        \includegraphics[width=0.5\textwidth]{img/diagrama.png}
+        \includegraphics[width=1.0\textwidth]{img/diagrama.png}
         \caption{Diagrama do processo de mineração realizado pelo MetricMiner}
         \label{fig:diagrama}
     \end{figure}
@@ -111,7 +120,7 @@
     os seus resultados no banco de dados.
 
     O componente que realiza a interface com o sistema de controle de versão é flexível em relação ao sistema 
-    utilizado pelo projeto que será minerado. Para suportar um novo sistema de controle de versão, é necessário 
+    utilizado pelo projeto que será minerado. Para dar suporte a um novo sistema de controle de versão, é necessário 
     apenas a implementação da intreface org.metricminer.SCM, que contém operações básicas sobre os metadados do 
     sistema de controle de versão. Até o momento, já foi implementado suporte ao GIT.
 
@@ -140,7 +149,7 @@
     tarefas, o usuário pode entrar na tela de detalhes do projeto cadastrado e vizualizar alguns dados simples.
         
     A Figura \ref{fig:screen_projeto} mostra a tela de vizualização no MetricMiner do projeto Ant, software de código aberto da fundação 
-    Apache com mais seis mil \textit{commits}. Nesta tela, são exibidas informações básicas sobre o projeto como número de \textit{commits},
+    Apache com mais seis mil \textit{commits}. Nessa tela, são exibidas informações básicas sobre o projeto como número de \textit{commits},
     número de \textit{commiters}, \textit{url} do repositório, data do primeiro e último \textit{commit}. São exibidos também dois gráficos simples 
     nos quais pode ser vizualizado o número de \textit{commits} nos últimos doze meses e o número de arquivos modificados em cada 
     \textit{commit} nos últimos seis meses.
@@ -174,20 +183,21 @@
     calcular métricas e extrair qualquer informações por meio de sua interface ou da implementação de novas 
     tarefas. O código do projeto está disponível publicamente\footnote[1]{http://github.com/csokol/MetricMiner}, de 
     forma que qualquer colaborador pode submeter novas tarefas e métricas que serão acrescentadas à ferramenta e executadas
-    sobre os projetos consolidados na base de dados já consolidada.
+    sobre os projetos consolidados na base de dados.
 
 
 \section{Ferramentas relacionadas} %breve comparação com outras ferramentas relacionadas existentes;
     Nesta seção serão apresentadas ferramentas que se relacionam ao MetricMiner.
     \subsection{Sonar}
-        Não se conhece ferramentas web de suporte a mineração de repositórios de \textit{software}. Uma ferramenta que se assemelha
+        Não se conhece ferramentas web de suporte a mineração de repositórios de software. Uma ferramenta que se assemelha
         ao MetricMiner, é o Sonar \footnote[1]{http://www.sonarsource.org/}, uma ferramenta web que analisa o código fonte e 
         extrai uma variedade de relatórios sobre o sistema, como resultados de métricas de código e dependências estruturais entre
         as classes. O foco desta ferramenta é apoiar a equipe de desenvolvimento e acompanhar a qualidade do código escrito. O Sonar 
-        não armazena dados do sistema de controle versão e não permite que se extraia dados dos projetos armazenados, mas fornece uma ótima
-        interface de vizualização. Por esses motivo, o Sonar é muito utilizado na indústria e pouco utilizado para fins acadêmicos.
+        não armazena dados do sistema de controle versão e não permite que se extraia dados dos projetos armazenados, mas fornece uma
+        interface de vizualização com muitos recursos. Por esses motivo, o Sonar é muito utilizado na indústria e pouco utilizado 
+        para fins acadêmicos.
         
-        Diferentemente do Sonar, o MetricMiner tem o foco na área acadêmica, permitindo que os usuários extraiam dados calculados
+        Diferentemente do Sonar, o MetricMiner tem o foco na área acadêmica, possibilitando que os usuários extraiam dados calculados
         pelo sistema para realizar a análise que desejar, sem focar tanto na vizualização dos dados armazenados.
     
     \subsection{Eclipse Metrics}
@@ -199,8 +209,8 @@
         as versões que deseja analisar localmente.
 
 \section{Conclusão}
-    O MetricMiner é uma ferramenta que agrega valor a área de mineração de respositórios de \textit{software}, armazenando um grande volume
-    de dados de repositórios de projetos de código aberto e permitindo que os usuários extraiam essas informações.
+    O MetricMiner é uma ferramenta que agrega valor à área de mineração de respositórios de software, armazenando um grande volume
+    de dados de repositórios de projetos de código aberto e possibilitando que os usuários extraiam essas informações.
     Por ser uma aplicação web, suas funcionalidades são de fácil acesso ao pesquisador, ao contrário das ferramentas existentes.
     
     Através do MetricMiner, pesquisadores podem extrair dados pré-calculados, poupando tempo e recursos computacionais
