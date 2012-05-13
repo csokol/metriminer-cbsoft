@@ -27,33 +27,16 @@
 \maketitle
 
 \begin{abstract}
-    This paper present MetricMiner, a web application that provide support to researchers
-    of mining software repositories. This tool store several information of repositories
-    and calculates source code metrics over the history of the projects from their source
-    control management systems. Using the systems avaiable presently, the researcher
-    need to configure the system and download the projects in which he wants to 
-    calculate his metrics. Using MetricMiner, all the interaction is complete through
-    a web interface. Furthermore, the system provides a database with several open 
-    source projects in which researchers may extract and relate their data, in addition
-    to submit new metrics to be calculated over these projects.
+    This paper presents MetricMiner, a web application that provides support for researchers to mine 
+    software repositories. This tool stores data from repositories and calculates source code metrics 
+    over the history of the projects. Using MetricMiner, all the interaction is done by means of a 
+    web interface, differently from others tools current available, which demand that researchers 
+    install and configure the tool and download the projects in which they want to calculate metrics.
+    Furthermore, MetricMiner provides a database with several open source projects in which researchers 
+    may extract and relate their data, in addition to submit new metrics to be calculated over these projects. 
     
 \end{abstract}
      
-\begin{resumo} 
-    Este trabalho apresenta o MetricMiner, uma ferramenta web que oferece suporte ao 
-    pesquisador da área de mineração de repositórios de software.
-    Essa ferramenta armazena diversas informações de repositórios e calcula 
-    métricas de código fonte sobre o histórico dos projetos a partir
-    dos seus sistemas de controle de versões.
-    Utilizando os sistemas disponíveis atualmente, o pesquisador precisa configurar 
-    o sistema e baixar os projetos sobre os quais deseja calcular suas métricas.
-    Com o MetricMiner, toda a interação é feita por meio de uma interface web.
-    Além disso, o sistema disponibiliza uma base com dados de vários de projetos 
-    de código aberto sobre os quais um pesquisador pode extrair e relacionar 
-    informações, além de submeter novas métricas para serem calculadas para
-    esses projetos.
-\end{resumo}
-
 \section{Introdução} % descrição e motivação do problema tratado pela ferramenta;
 
     Minerar repositórios de software é uma tarefa custosa. Para desenvolver uma 
@@ -66,7 +49,7 @@
     Além de ser um processo complexo, esse tipo de pesquisa consome muitos recursos 
     computacionais. Baixar os repositórios a serem minerados consome um 
     volume considerável de banda. Depois, os dados devem ser processados e 
-    persistidos em um banco de dados, ocupando uma grande volume de disco.
+    persistidos em um banco de dados, ocupando um grande volume de disco.
     Só então o pesquisador pode calcular métricas sobre esses dados, além de 
     extrair relações entre os metadados do histórico do sistema de controle de versão,
     gastando uma quantidade grande de processamento de CPU. Só depois de passar por todas
@@ -74,7 +57,7 @@
 
     Dessas dificuldades surgiu a motivação para o desenvolvimento do MetricMiner,
     uma aplicação web que realiza todas as etapas da mineração de um repositório
-    de software.
+    de software. A ferramenta pode ser acessada em \url{http://metricminer.org.br}.
 
     Na próxima seção é exibida a arquitetura da ferramenta desenvolvida para solucionar
     o problema descrito. Na Seção 3 são apresentadas brevemente as principais funcionalidades
@@ -114,22 +97,31 @@
     \end{figure}
 
     A arquitetura é flexível na definição de novas tarefas, é necessário apenas que sejam desenvolvidas
-    duas classes que implementam as interfaces org.metricminer.RunnableTask e org.metricminer.RunnableTaskFactory.
+    duas classes implementando duas interfaces. As classes que definem as tarefas do MetricMiner podem serem
+    observadas no diagrama de classes simplificado da Figura \ref{fig:diagrama-classes}.
     Cada tarefa implementada tem acesso ao projeto sobre o qual a tarefa será executada e uma conexão com o 
     banco de dados. Dessa forma, cada tarefa pode extrair e relacionar qualquer informação do projeto e persistir
     os seus resultados no banco de dados.
+    
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=1.0\textwidth]{img/diagrama-classes.png}
+        \caption{Diagrama com as principais tarefas implementadas no MetricMiner}
+        \label{fig:diagrama-classes}
+    \end{figure}
 
     O componente que realiza a interface com o sistema de controle de versão é flexível em relação ao sistema 
     utilizado pelo projeto que será minerado. Para dar suporte a um novo sistema de controle de versão, é necessário 
-    apenas a implementação da intreface org.metricminer.SCM, que contém operações básicas sobre os metadados do 
+    apenas a implementação da interface SCM, que contém operações básicas sobre os metadados do 
     sistema de controle de versão. Até o momento, já foi implementado suporte ao GIT.
 
     A arquitetura também é flexível em relação a criação de novas métricas de código. Para criar uma nova métrica, deve ser
     definida uma classe para representar os resultados do cálculo da métrica que serão armazenados no banco de dados
-    e uma classe que implemente a interface org.metricminer.tasks.metric.common.Metric. O cálculo das métricas
-    sobre o código dos projetos cadastrados é feito por meio da tarefa definida na classe org.metricminer.CalculateMetricTask.
+    e uma classe que implemente a interface Metric. O cálculo das métricas
+    sobre o código dos projetos cadastrados é feito por meio da tarefa definida na classe CalculateMetricTask.
     Ao ser executada na fila de execução, essa tarefa calcula uma determinada métrica para todas as versões de todos os 
-    códigos fonte de um projeto. A seguir encontra-se a lista das métricas implementadas acompanhadas de uma breve explicação: 
+    códigos fonte de um projeto. As classes que calculam as métricas implementadas podem ser observadas no diagrama da
+    figura \ref{fig:diagrama-classes}. A seguir encontra-se a lista das métricas implementadas acompanhadas de uma breve explicação: 
     \begin{itemize} %(referencias métricas com aniche)
         \item \textbf{Complexidade Ciclomática:} mede a complexidade do código, quanto maior o número de instruções como 
             \textit{if}, \textit{while}, \textit{case}, \textit{\&\&}, \textpipe\textpipe, ou \textit{?}, mais complexo é o código
@@ -162,7 +154,7 @@
     
     \begin{figure}[ht]
         \centering
-        \includegraphics[width=0.95\textwidth]{img/projeto.png}
+        \includegraphics[width=0.85\textwidth]{img/projeto.png}
         \caption{Tela de vizualização de projeto}
         \label{fig:screen_projeto}
     \end{figure}
@@ -174,7 +166,7 @@
     
     \begin{figure}[ht]
         \centering
-        \includegraphics[width=0.95\textwidth]{img/query.png}
+        \includegraphics[width=0.85\textwidth]{img/query.png}
         \caption{Tela de consultas aos dados calculados}
         \label{fig:screen_query}
     \end{figure}

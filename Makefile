@@ -3,7 +3,6 @@ all: metricminer.tex
 	bibtex metricminer
 	pdflatex metricminer
 	pdflatex metricminer
-	okular metricminer.pdf
 
 clean:
 	rm *.aux *.log
