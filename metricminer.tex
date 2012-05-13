@@ -41,7 +41,7 @@
 
     Minerar repositórios de software é uma tarefa custosa. Para desenvolver uma 
     pesquisa na área, o pesquisador é obrigado a baixar diversos projetos
-    em sua estação de trabalho, realizar uma série de cálculos sobre o código
+%     em sua estação de trabalho e realizar uma série de cálculos sobre o código
     dos projetos e sobre os metadados de seu repositório. Esse processo requer que
     o pesquisador instale diversas ferramentas e bibliotecas localmente para reaproveitar
     as ferramentas desenvolvidas nessa área, tornando o processo trabalhoso e demorado.
@@ -85,7 +85,7 @@
     no processo de mineração sobre um repositório de software cadastrado na ferramenta.
     
     Ao final desse processo, todas as informações do projeto estão persistidas no banco de dados e disponíveis
-    para serem extraídas pelo pesquisador. É importante ressaltar que após a extração dos metadados do sistema
+    para serem extraídas pelo pesquisador. É importante ressaltar que após a extração dos dados do sistema
     de controle de versão, é possível implementar novas métricas para serem calculadas sobre o código, sem precisar
     executar todos os passos anteriores novamente.
     
@@ -97,7 +97,7 @@
     \end{figure}
 
     A arquitetura é flexível na definição de novas tarefas, é necessário apenas que sejam desenvolvidas
-    duas classes implementando duas interfaces. As classes que definem as tarefas do MetricMiner podem serem
+    duas classes implementando duas interfaces. As classes que definem as tarefas do MetricMiner podem ser
     observadas no diagrama de classes simplificado da Figura \ref{fig:diagrama-classes}.
     Cada tarefa implementada tem acesso ao projeto sobre o qual a tarefa será executada e uma conexão com o 
     banco de dados. Dessa forma, cada tarefa pode extrair e relacionar qualquer informação do projeto e persistir
@@ -125,7 +125,7 @@
     \begin{itemize} %(referencias métricas com aniche)
         \item \textbf{Complexidade Ciclomática:} mede a complexidade do código, quanto maior o número de instruções como 
             \textit{if}, \textit{while}, \textit{case}, \textit{\&\&}, \textpipe\textpipe, ou \textit{?}, mais complexo é o código
-            e portanto, maior o valor da métrica \cite{maccabe:76}.
+            e, portanto, maior o valor da métrica \cite{maccabe:76}.
         \item \textbf{Falta de Coesão dos Métodos (\textit{LCOM}):} mede a coesão, considerando que uma classe é coesa 
             se todos os métodos acessam os mesmos atributos da classe em comum \cite{henderson:96}.
         \item \textbf{\textit{Fan-out}:} mede o acoplamento de uma classe, contando o número de invocações
@@ -147,7 +147,7 @@
     \textit{commit} nos últimos seis meses.
     
     Mais abaixo, na seção ``\textit{Available Metrics to Calculate}'', são exibidas as métricas disponíveis no MetricMiner e que ainda não
-    foram calculadas para o projeto. O usuário pode selecionar as métricas que deseja calcular e as tarefas para a realizaçao dos
+    foram calculadas para o projeto. O usuário pode selecionar as métricas que deseja calcular e as tarefas para a realização dos
     cálculos serão inseridas à fila de execução. Na seção ``\textit{Scheduled Tasks}'', as tarefas que já foram executadas podem ser
     vizualizadas. Nesse caso, podemos ver que as métricas de complexidade ciclomática e a \textit{fan-out} já foram calculadas, 
     enquanto a \textit{LCOM} e a quantidade de invocações de métodos estão na fila de execução para serem calculadas.
@@ -172,7 +172,7 @@
     \end{figure}
 
     Até o momento, o MetricMiner conta com uma base com dados de mais de 20 projetos de código aberto sobre os quais é possível
-    calcular métricas e extrair qualquer informações por meio de sua interface ou da implementação de novas 
+    calcular métricas e extrair qualquer informação por meio de sua interface ou da implementação de novas 
     tarefas. O código do projeto está disponível publicamente\footnote{http://github.com/csokol/MetricMiner}, de 
     forma que qualquer colaborador pode submeter novas tarefas e métricas que serão acrescentadas à ferramenta e executadas
     sobre os projetos consolidados na base de dados.
@@ -182,10 +182,10 @@
     Nesta seção serão apresentadas ferramentas que se relacionam ao MetricMiner.
     \subsection{Sonar}
         Não se conhece ferramentas web de suporte a mineração de repositórios de software. Uma ferramenta que se assemelha
-        ao MetricMiner, é o Sonar \footnote{http://www.sonarsource.org/}, uma ferramenta web que analisa o código fonte e 
+        ao MetricMiner, é o Sonar \footnote{http://www.sonarsource.org/}, uma aplicação web que analisa o código fonte e 
         extrai uma variedade de relatórios sobre o sistema, como resultados de métricas de código e dependências estruturais entre
         as classes. O foco desta ferramenta é apoiar a equipe de desenvolvimento e acompanhar a qualidade do código escrito. O Sonar 
-        não armazena dados do sistema de controle versão e não permite que se extraia dados dos projetos armazenados, mas fornece uma
+        não armazena metadados do sistema de controle versão e não permite que se extraia dados dos projetos armazenados, mas fornece uma
         interface de vizualização com muitos recursos. Por esses motivo, o Sonar é muito utilizado na indústria e pouco utilizado 
         para fins acadêmicos.
         
