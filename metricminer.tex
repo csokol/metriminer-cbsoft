@@ -179,9 +179,9 @@
         \label{fig:screen_query}
     \end{figure}
 
-    Até o momento, o MetricMiner conta com uma base com dados de X projetos de código aberto sobre os quais é possível
+    Até o momento, o MetricMiner conta com uma base com dados de mais de 20 projetos de código aberto sobre os quais é possível
     calcular métricas e extrair qualquer informações por meio de sua interface ou da implementação de novas 
-    tarefas. O código do projeto está disponível publicamente\footnote[1]{http://github.com/csokol/MetricMiner}, de 
+    tarefas. O código do projeto está disponível publicamente\footnote{http://github.com/csokol/MetricMiner}, de 
     forma que qualquer colaborador pode submeter novas tarefas e métricas que serão acrescentadas à ferramenta e executadas
     sobre os projetos consolidados na base de dados.
 
@@ -190,7 +190,7 @@
     Nesta seção serão apresentadas ferramentas que se relacionam ao MetricMiner.
     \subsection{Sonar}
         Não se conhece ferramentas web de suporte a mineração de repositórios de software. Uma ferramenta que se assemelha
-        ao MetricMiner, é o Sonar \footnote[1]{http://www.sonarsource.org/}, uma ferramenta web que analisa o código fonte e 
+        ao MetricMiner, é o Sonar \footnote{http://www.sonarsource.org/}, uma ferramenta web que analisa o código fonte e 
         extrai uma variedade de relatórios sobre o sistema, como resultados de métricas de código e dependências estruturais entre
         as classes. O foco desta ferramenta é apoiar a equipe de desenvolvimento e acompanhar a qualidade do código escrito. O Sonar 
         não armazena dados do sistema de controle versão e não permite que se extraia dados dos projetos armazenados, mas fornece uma
@@ -201,12 +201,21 @@
         pelo sistema para realizar a análise que desejar, sem focar tanto na vizualização dos dados armazenados.
     
     \subsection{Eclipse Metrics}
-        O Eclipse Metrics\footnote[2]{http://metrics.sourceforge.net/} é um \textit{plugin} para o Eclipse que calcula uma variedade 
+        O Eclipse Metrics\footnote{http://metrics.sourceforge.net/} é um \textit{plugin} para o Eclipse que calcula uma variedade 
         de métricas de código no ambiente do desenvolvedor. Dessa forma, para que se acompanhe a evolução do código do 
         projeto é necessário executar manualmente o \textit{plugin} para os \textit{releases} que se deseja analisar. No MetricMiner,
         o cálculo das métricas é realizado sobre todo o histórico de versões do projeto analisado, sem que o usuário precise selecionar
         as versões manualmente. Além disso, não é necessário que o usuário configure nada em seu ambiente e nem que mantenha
         as versões que deseja analisar localmente.
+        
+    \subsection{Kalibro}
+        Desenvolvida no Brasil, o Kalibro\footnote{http://www.kalibro.org/} é uma ferramenta que calcula as principais métricas 
+        de código fonte. O foco do Kalibro é dar suporte ao desenvolvedor, sugerindo valores de referência para as métricas
+        calculadas, apontando possíveis problemas no projeto analisado. A ferramenta permite que os valores de referência 
+        sejam configurados por projeto. Através de código JavaScript, é possível compor as métricas calculadas pelo Kalibro,
+        permitindo que o usuário crie novas métricas. Assim como o Eclipse Metrics, o Kalibro não analisa todo o histório de
+        versões, de forma que o usuário precisaria selecionar as versões e recalcular as métricas manualmente.
+        
 
 \section{Conclusão}
     O MetricMiner é uma ferramenta que agrega valor à área de mineração de respositórios de software, armazenando um grande volume
