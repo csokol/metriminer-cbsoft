@@ -41,7 +41,7 @@
 
     Minerar repositórios de software é uma tarefa custosa. Para desenvolver uma 
     pesquisa na área, o pesquisador é obrigado a baixar diversos projetos
-%     em sua estação de trabalho e realizar uma série de cálculos sobre o código
+    em sua estação de trabalho e realizar uma série de cálculos sobre o código
     dos projetos e sobre os metadados de seu repositório. Esse processo requer que
     o pesquisador instale diversas ferramentas e bibliotecas localmente para reaproveitar
     as ferramentas desenvolvidas nessa área, tornando o processo trabalhoso e demorado.
@@ -62,13 +62,13 @@
     Na próxima seção é exibida a arquitetura da ferramenta desenvolvida para solucionar
     o problema descrito. Na Seção 3 são apresentadas brevemente as principais funcionalidades
     implementadas no MetricMiner. Na Seção 4, algumas ferramentas relacionadas ao software
-    desenvolvido serão exibidas e analisadas. A última seção traz a conclusão do artigo, mostrando
+    desenvolvido são exibidas e analisadas. A última seção traz a conclusão do artigo, mostrando
     como a ferramenta desenvolvida contribui na área de mineração de repositórios de software.
 
 \section{Arquitetura} % arquitetura de solução da ferramenta;
 
     Para o desenvolvimento da aplicação web, foi utilizado o VRaptor\footnote{http://vraptor.caelum.com.br/}, 
-    um arcabouço para desenvolvimento web em Java baseado no padrão de projeto MVC (\textit{Model-View-Controller}). 
+    um arcabouço para desenvolvimento web em Java baseado no padrão de projeto \textit{MVC} (\textit{Model-View-Controller}). 
     Para a armazenar os dados minerados foi utilizado o banco de dados MySQL e o arcabouço de mapeamento 
     objeto-relacional Hibernate\footnote{http://www.hibernate.org/}. %(ref mvc, vraptor, hibernate)
     
@@ -140,13 +140,13 @@
     do respositório e persistir os dados do sistema de controle de versão do projeto no banco de dados. Ao final dessas 
     tarefas, o usuário pode entrar na tela de detalhes do projeto cadastrado e vizualizar alguns dados simples.
         
-    A Figura \ref{fig:screen_projeto} mostra a tela de vizualização no MetricMiner do projeto Ant, software de código aberto da fundação 
+    A Figura \ref{fig:screen_projeto} exibe a tela de vizualização no MetricMiner do projeto Ant, software de código aberto da fundação 
     Apache com mais seis mil \textit{commits}. Nessa tela, são exibidas informações básicas sobre o projeto como número de \textit{commits},
     número de \textit{commiters}, \textit{url} do repositório, data do primeiro e último \textit{commit}. São exibidos também dois gráficos simples 
     nos quais pode ser vizualizado o número de \textit{commits} nos últimos doze meses e o número de arquivos modificados em cada 
     \textit{commit} nos últimos seis meses.
     
-    Mais abaixo, na seção ``\textit{Available Metrics to Calculate}'', são exibidas as métricas disponíveis no MetricMiner e que ainda não
+    Mais abaixo, na seção ``\textit{Available Metrics to Calculate}'', são exibidas as métricas disponíveis no MetricMiner que ainda não
     foram calculadas para o projeto. O usuário pode selecionar as métricas que deseja calcular e as tarefas para a realização dos
     cálculos serão inseridas à fila de execução. Na seção ``\textit{Scheduled Tasks}'', as tarefas que já foram executadas podem ser
     vizualizadas. Nesse caso, podemos ver que as métricas de complexidade ciclomática e a \textit{fan-out} já foram calculadas, 
