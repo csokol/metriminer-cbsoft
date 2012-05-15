@@ -81,13 +81,13 @@
     no banco de dados e calcular métricas sobre o código fonte. Com isso, optou-se por executar essas tarefas
     de maneira assíncrona, através da simulação de uma fila de execução. Cada tarefa é 
     armazenada no banco de dados e processada por um componente que constrói as dependências de cada tarefa e 
-    as executa na ordem em que foram cadastradas. A Figura \ref{fig:diagrama} descreve as tarefas envolvidas  
-    no processo de mineração sobre um repositório de software cadastrado na ferramenta.
+    as executa na ordem em que foram cadastradas.
     
     Ao final desse processo, todas as informações do projeto estão persistidas no banco de dados e disponíveis
     para serem extraídas pelo pesquisador. É importante ressaltar que após a extração dos dados do sistema
     de controle de versão, é possível implementar novas métricas para serem calculadas sobre o código, sem precisar
-    executar todos os passos anteriores novamente.
+    executar todos os passos anteriores novamente. A Figura \ref{fig:diagrama} descreve as tarefas envolvidas  
+    no processo de mineração sobre um repositório de software cadastrado na ferramenta.
     
     \begin{figure}[ht]
         \centering
@@ -121,7 +121,7 @@
     sobre o código dos projetos cadastrados é feito por meio da tarefa definida na classe CalculateMetricTask.
     Ao ser executada na fila de execução, essa tarefa calcula uma determinada métrica para todas as versões de todos os 
     códigos fonte de um projeto. As classes que calculam as métricas implementadas podem ser observadas no diagrama da
-    figura \ref{fig:diagrama-classes}. A seguir encontra-se a lista das métricas implementadas acompanhadas de uma breve explicação: 
+    Figura \ref{fig:diagrama-classes}. A seguir encontra-se a lista das métricas implementadas acompanhadas de uma breve explicação: 
     \begin{itemize} %(referencias métricas com aniche)
         \item \textbf{Complexidade Ciclomática:} mede a complexidade do código, quanto maior o número de instruções como 
             \textit{if}, \textit{while}, \textit{case}, \textit{\&\&}, \textpipe\textpipe, ou \textit{?}, mais complexo é o código
